@@ -86,6 +86,7 @@ class BurgerBuilder extends Component {
                 <Modal isOpen={this.state.inOrderMode} closeHandler={this.orderModeOffHandler}>
                     <OrderSummary
                         ingredients={this.state.ingredients}
+                        price={this.state.totalPrice}
                         cancelButtonHandler={this.orderModeOffHandler}
                         okButtonHandler={() => console.log('check out')}
                     />
