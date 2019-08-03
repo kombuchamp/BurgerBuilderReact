@@ -24,6 +24,7 @@ class BurgerBuilder extends Component {
             },
             totalPrice: 4,
             isOrderable: false,
+            inOrderMode: false,
         };
     }
 
@@ -64,6 +65,10 @@ class BurgerBuilder extends Component {
         );
     };
 
+    orderButtonHandler = () => {
+        this.setState({ inOrderMode: true });
+    };
+
     render() {
         const disabledInfo = {
             ...this.state.ingredients,
@@ -74,7 +79,7 @@ class BurgerBuilder extends Component {
 
         return (
             <>
-                <Modal>
+                <Modal isOpen={this.state.inOrderMode}>
                     <OrderSummary ingredients={this.state.ingredients} />
                 </Modal>
                 <Burger ingredients={this.state.ingredients} />
@@ -84,6 +89,7 @@ class BurgerBuilder extends Component {
                     disabledInfo={disabledInfo}
                     price={this.state.totalPrice}
                     isOrderable={this.state.isOrderable}
+                    orderButtonHandler={this.orderButtonHandler}
                 />
             </>
         );
