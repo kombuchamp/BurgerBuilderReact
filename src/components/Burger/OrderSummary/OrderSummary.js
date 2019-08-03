@@ -1,5 +1,6 @@
 import React from 'react';
 import Button from '../../UI/Button/Button';
+import styles from './OrderSummary.module.css';
 
 const OrderSummary = props => {
     const ingredientSummary = Object.keys(props.ingredients).map(igKey => (
@@ -10,7 +11,7 @@ const OrderSummary = props => {
 
     return (
         <>
-            <h3>Your order</h3>
+            <h3 className={styles.Header}>Your order</h3>
             <p>Burger with:</p>
             <ul>{ingredientSummary}</ul>
             <p>
