@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/BurgerBuilderReact/precache-manifest.e8c516cae0ecc01153376d0eca5adc77.js"
+  "/BurgerBuilderReact/precache-manifest.c8efb27fec0f273556ca18fc80589c86.js"
 );
 
 workbox.clientsClaim();
