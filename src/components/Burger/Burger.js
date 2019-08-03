@@ -2,7 +2,7 @@ import React from 'react';
 import BurgerIngredient from './BurgerIngredient/BurgerIngredient';
 import styles from './Burger.module.css';
 
-const burger = props => {
+const Burger = props => {
     let ingredientsArray = Object.keys(props.ingredients)
         .map(igKey => {
             const igCount = props.ingredients[igKey];
@@ -19,4 +19,4 @@ const burger = props => {
     );
 };
 
-export default burger;
+export default Burger;

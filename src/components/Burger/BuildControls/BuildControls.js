@@ -9,7 +9,7 @@ const controls = [
     { label: 'Meat', type: 'meat' },
 ];
 
-const buildControls = props => {
+const BuildControls = props => {
     return (
         <div className={styles.BuildControls}>
             <p>
@@ -28,4 +28,4 @@ const buildControls = props => {
     );
 };
 
-export default buildControls;
+export default BuildControls;
