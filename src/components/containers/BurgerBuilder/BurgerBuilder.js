@@ -69,7 +69,7 @@ class BurgerBuilder extends Component {
         this.setState({ inOrderMode: true });
     };
 
-    closeHandler = () => {
+    orderModeOffHandler = () => {
         this.setState({ inOrderMode: false });
     };
 
@@ -83,8 +83,12 @@ class BurgerBuilder extends Component {
 
         return (
             <>
-                <Modal isOpen={this.state.inOrderMode} closeHandler={this.closeHandler}>
-                    <OrderSummary ingredients={this.state.ingredients} />
+                <Modal isOpen={this.state.inOrderMode} closeHandler={this.orderModeOffHandler}>
+                    <OrderSummary
+                        ingredients={this.state.ingredients}
+                        cancelButtonHandler={this.orderModeOffHandler}
+                        okButtonHandler={() => console.log('check out')}
+                    />
                 </Modal>
                 <Burger ingredients={this.state.ingredients} />
                 <BuildControls
