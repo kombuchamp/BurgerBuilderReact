@@ -69,6 +69,10 @@ class BurgerBuilder extends Component {
         this.setState({ inOrderMode: true });
     };
 
+    closeHandler = () => {
+        this.setState({ inOrderMode: false });
+    };
+
     render() {
         const disabledInfo = {
             ...this.state.ingredients,
@@ -79,7 +83,7 @@ class BurgerBuilder extends Component {
 
         return (
             <>
-                <Modal isOpen={this.state.inOrderMode}>
+                <Modal isOpen={this.state.inOrderMode} closeHandler={this.closeHandler}>
                     <OrderSummary ingredients={this.state.ingredients} />
                 </Modal>
                 <Burger ingredients={this.state.ingredients} />
