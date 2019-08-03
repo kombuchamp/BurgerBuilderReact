@@ -24,6 +24,9 @@ const BuildControls = props => {
                     disabled={props.disabledInfo[ctrl.type]}
                 />
             ))}
+            <button className={styles.OrderButton} disabled={!props.isOrderable}>
+                ORDER
+            </button>
         </div>
     );
 };

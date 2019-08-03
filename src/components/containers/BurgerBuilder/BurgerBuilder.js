@@ -21,30 +21,45 @@ class BurgerBuilder extends Component {
                 meat: 0,
             },
             totalPrice: 4,
+            isOrderable: false,
         };
     }
 
+    updateIsOrderableState = () => {
+        this.setState({
+            isOrderable: Object.values(this.state.ingredients).every(amount => amount <= 0) // No ingredients chosen
+                ? false
+                : true,
+        });
+    };
+
     addIngredientHandler = type => {
         const oldCount = this.state.ingredients[type];
-        this.setState({
-            ingredients: {
-                ...this.state.ingredients,
-                [type]: oldCount + 1,
+        this.setState(
+            {
+                ingredients: {
+                    ...this.state.ingredients,
+                    [type]: oldCount + 1,
+                },
+                totalPrice: this.state.totalPrice + INGREDIENT_PRICES[type],
             },
-            totalPrice: this.state.totalPrice + INGREDIENT_PRICES[type],
-        });
+            this.updateIsOrderableState
+        );
     };
 
     removeIngredientHandler = type => {
         const oldCount = this.state.ingredients[type];
         if (oldCount <= 0) return;
-        this.setState({
-            ingredients: {
-                ...this.state.ingredients,
-                [type]: oldCount - 1,
+        this.setState(
+            {
+                ingredients: {
+                    ...this.state.ingredients,
+                    [type]: oldCount - 1,
+                },
+                totalPrice: this.state.totalPrice - INGREDIENT_PRICES[type],
             },
-            totalPrice: this.state.totalPrice - INGREDIENT_PRICES[type],
-        });
+            this.updateIsOrderableState
+        );
     };
 
     render() {
@@ -63,6 +78,7 @@ class BurgerBuilder extends Component {
                     ingredientRemoved={this.removeIngredientHandler}
                     disabledInfo={disabledInfo}
                     price={this.state.totalPrice}
+                    isOrderable={this.state.isOrderable}
                 />
             </>
         );
