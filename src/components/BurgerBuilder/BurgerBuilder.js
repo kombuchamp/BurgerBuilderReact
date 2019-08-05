@@ -3,6 +3,7 @@ import Burger from '../../components/Burger/Burger';
 import BuildControls from '../../components/Burger/BuildControls/BuildControls';
 import Modal from '../../components/UI/Modal/Modal';
 import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
+import axios from '../../util/axios-orders';
 
 const INGREDIENT_PRICES = {
     salad: 0.5,
@@ -73,6 +74,29 @@ class BurgerBuilder extends Component {
         this.setState({ inOrderMode: false });
     };
 
+    sendOrder = async () => {
+        const order = {
+            ingredients: this.state.ingredients,
+            customer: {
+                name: 'Test Name',
+                adress: {
+                    street: 'Test street',
+                    zipCode: '123456',
+                    country: 'Country Name',
+                },
+                email: 'test@example.com',
+            },
+            deliveryMethod: 'fastest',
+        };
+
+        try {
+            const response = await axios.post('/orders.json', order);
+            console.log(response);
+        } catch (err) {
+            console.error(err);
+        }
+    };
+
     render() {
         const disabledInfo = {
             ...this.state.ingredients,
@@ -88,7 +112,7 @@ class BurgerBuilder extends Component {
                         ingredients={this.state.ingredients}
                         price={this.state.totalPrice}
                         cancelButtonHandler={this.orderModeOffHandler}
-                        okButtonHandler={() => console.log('check out')}
+                        okButtonHandler={this.sendOrder}
                     />
                 </Modal>
                 <Burger ingredients={this.state.ingredients} />
