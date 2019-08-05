@@ -11,19 +11,27 @@ const withErrorHandler = (WrappedComponent, axios) => {
             };
 
             // Add middleware to axios instance:
+
             // Set error state to null on every new request
-            axios.interceptors.request.use(req => {
+            this.requestInterceptor = axios.interceptors.request.use(req => {
                 this.setState({ error: null });
                 return req;
             });
             // Set error state to corresponding error if there is one in http response
-            axios.interceptors.response.use(
+            this.responseInterceptor = axios.interceptors.response.use(
                 res => res,
                 error => {
                     this.setState({ error });
                 }
             );
         }
+
+        componentWillUnmount() {
+            // Prevent memory leaks when using this HOC on multiple components
+            axios.interceptors.request.eject(this.requestInterceptor);
+            axios.interceptors.request.eject(this.responseInterceptor);
+        }
+
         render() {
             return (
                 <>
