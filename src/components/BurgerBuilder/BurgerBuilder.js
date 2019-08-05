@@ -19,17 +19,27 @@ class BurgerBuilder extends Component {
         super(props);
 
         this.state = {
-            ingredients: {
-                salad: 0,
-                bacon: 0,
-                cheese: 0,
-                meat: 0,
-            },
+            ingredients: null,
             totalPrice: 4,
             isOrderable: false,
             inOrderMode: false,
             isLoading: false,
+            error: false,
         };
+    }
+
+    componentDidMount() {
+        (async () => {
+            try {
+                const response = await axios.get('/ingredients.json');
+                this.setState({
+                    ingredients: response.data,
+                });
+            } catch (err) {
+                console.error(err);
+                this.setState({ error: true });
+            }
+        })();
     }
 
     updateIsOrderableState = () => {
@@ -116,24 +126,32 @@ class BurgerBuilder extends Component {
                 <Modal isOpen={this.state.inOrderMode} closeHandler={this.orderModeOffHandler}>
                     {this.state.isLoading ? (
                         <Progress />
-                    ) : (
+                    ) : this.state.ingredients ? (
                         <OrderSummary
                             ingredients={this.state.ingredients}
                             price={this.state.totalPrice}
                             cancelButtonHandler={this.orderModeOffHandler}
                             okButtonHandler={this.sendOrder}
                         />
-                    )}
+                    ) : null}
                 </Modal>
-                <Burger ingredients={this.state.ingredients} />
-                <BuildControls
-                    ingredientAdded={this.addIngredientHandler}
-                    ingredientRemoved={this.removeIngredientHandler}
-                    disabledInfo={disabledInfo}
-                    price={this.state.totalPrice}
-                    isOrderable={this.state.isOrderable}
-                    orderButtonHandler={this.orderButtonHandler}
-                />
+                {this.state.error ? (
+                    <p>Error occured while loading the ingredients. Try refreshing the page or check developer console for details.</p>
+                ) : this.state.ingredients ? (
+                    <>
+                        <Burger ingredients={this.state.ingredients} />
+                        <BuildControls
+                            ingredientAdded={this.addIngredientHandler}
+                            ingredientRemoved={this.removeIngredientHandler}
+                            disabledInfo={disabledInfo}
+                            price={this.state.totalPrice}
+                            isOrderable={this.state.isOrderable}
+                            orderButtonHandler={this.orderButtonHandler}
+                        />
+                    </>
+                ) : (
+                    <Progress />
+                )}
             </>
         );
     }

@@ -3,11 +3,13 @@ import Modal from '../../UI/Modal/Modal';
 
 const withErrorHandler = (WrappedComponent, axios) => {
     return class extends Component {
-        state = {
-            error: null,
-        };
+        constructor() {
+            super();
 
-        componentDidMount() {
+            this.state = {
+                error: null,
+            };
+
             // Add middleware to axios instance:
             // Set error state to null on every new request
             axios.interceptors.request.use(req => {
@@ -22,7 +24,6 @@ const withErrorHandler = (WrappedComponent, axios) => {
                 }
             );
         }
-
         render() {
             return (
                 <>
