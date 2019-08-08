@@ -16,10 +16,12 @@ export default class Checkout extends Component {
             cheese: 0,
         };
         for (let param of params) {
-            ingredients[param[0]] = param[1];
+            if (param[0] === 'price') continue; // workaround
+            ingredients[param[0]] = +param[1];
         }
         this.state = {
             ingredients,
+            totalPrice: query.get('price'),
         };
     }
 
@@ -39,7 +41,10 @@ export default class Checkout extends Component {
                     onCheckoutCancelled={this.checkoutCancelledHandler}
                     onCheckoutContinued={this.checkoutContinuedHandler}
                 />
-                <Route path={`${this.props.match.path}/contact-data`} component={ContactData} />
+                <Route
+                    path={`${this.props.match.path}/contact-data`}
+                    render={props => <ContactData ingredients={this.state.ingredients} price={this.state.totalPrice} {...props} />}
+                />
             </div>
         );
     }
