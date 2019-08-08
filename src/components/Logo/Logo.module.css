@@ -6,3 +6,7 @@
 .Logo img {
     height: 100%;
 }
+
+.Clickable {
+    cursor: pointer;
+}
