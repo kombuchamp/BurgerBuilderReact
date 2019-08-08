@@ -4,9 +4,11 @@ import Button from '../../UI/Button/Button';
 import styles from './CheckoutSummary.module.css';
 
 const CheckoutSummary = props => {
+    const { price } = props;
+
     return (
         <div className={styles.CheckoutSummary}>
-            <h1>Your order</h1>
+            <h1>Your order ({price && Number(price).toFixed(2)}$)</h1>
             <div style={{ width: '100%', margin: 'auto' }}>
                 <Burger ingredients={props.ingredients} />
             </div>
