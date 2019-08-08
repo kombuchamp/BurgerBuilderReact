@@ -8,6 +8,7 @@ class Orders extends Component {
         orders: [],
         isLoading: true,
     };
+
     componentDidMount() {
         this.updateOrders();
     }
@@ -22,6 +23,7 @@ class Orders extends Component {
                     id: key,
                 });
             }
+            console.log(response);
         } catch (err) {
             console.error(err);
         } finally {
@@ -32,8 +34,9 @@ class Orders extends Component {
     render() {
         return (
             <div>
-                <Order />
-                <Order />
+                {this.state.orders.map(order => (
+                    <Order key={order.id} ingredients={order.ingredients} />
+                ))}
             </div>
         );
     }

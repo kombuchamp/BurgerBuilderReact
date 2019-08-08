@@ -20,7 +20,7 @@ export default class ContactData extends Component {
         ev.preventDefault();
 
         const order = {
-            ingredients: this.state.ingredients,
+            ingredients: this.props.ingredients,
             customer: {
                 name: 'Test Name',
                 adress: {
