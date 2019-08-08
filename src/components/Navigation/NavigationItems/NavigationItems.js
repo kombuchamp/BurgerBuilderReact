@@ -5,10 +5,8 @@ import styles from './NavigationItems.module.css';
 const NavigationItems = () => {
     return (
         <ul className={styles.NavigationItems}>
-            <NavigationItem href="/" active>
-                Bugrer Builder
-            </NavigationItem>
-            <NavigationItem href="/">Checkout</NavigationItem>
+            <NavigationItem link="/">Bugrer Builder</NavigationItem>
+            <NavigationItem link="/orders">Orders</NavigationItem>
         </ul>
     );
 };
