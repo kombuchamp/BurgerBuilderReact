@@ -55,7 +55,7 @@ export default class ContactData extends Component {
                         <input type="text" name="street" placeholder="Street" />
                         <input type="text" name="postal" placeholder="Postal Code" />
                         <Button type="success" onClick={this.orderHandler}>
-                            {'ORDER'}
+                            {`ORDER (${this.props.price && Number(this.props.price).toFixed(2)}$)`}
                         </Button>
                     </form>
                 )}

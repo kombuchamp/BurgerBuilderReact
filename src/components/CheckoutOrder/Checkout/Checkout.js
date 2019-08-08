@@ -40,11 +40,10 @@ export default class Checkout extends Component {
                     ingredients={this.state.ingredients}
                     onCheckoutCancelled={this.checkoutCancelledHandler}
                     onCheckoutContinued={this.checkoutContinuedHandler}
-                    price={this.state.totalPrice}
                 />
                 <Route
                     path={`${this.props.match.path}/contact-data`}
-                    render={props => <ContactData ingredients={this.state.ingredients} {...props} />}
+                    render={props => <ContactData ingredients={this.state.ingredients} price={this.state.totalPrice} {...props} />}
                 />
             </div>
         );
