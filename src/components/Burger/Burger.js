@@ -5,7 +5,7 @@ import styles from './Burger.module.css';
 const Burger = props => {
     let ingredientsArray = Object.keys(props.ingredients)
         .map(igKey => {
-            const igCount = props.ingredients[igKey];
+            const igCount = parseInt(props.ingredients[igKey]);
             return [...Array(igCount)].map((_, i) => <BurgerIngredient key={igKey + i} type={igKey} />);
         })
         .reduce((resultArray, igArray) => [...resultArray, ...igArray], []);
