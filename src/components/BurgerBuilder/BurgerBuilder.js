@@ -32,9 +32,12 @@ class BurgerBuilder extends Component {
         (async () => {
             try {
                 const response = await axios.get('/ingredients.json');
-                this.setState({
-                    ingredients: response.data,
-                });
+                this.setState(
+                    {
+                        ingredients: response.data,
+                    },
+                    this.updateIsOrderableState
+                );
             } catch (err) {
                 console.error(err);
                 this.setState({ error: true });
@@ -87,30 +90,29 @@ class BurgerBuilder extends Component {
         this.setState({ inOrderMode: false });
     };
 
-    sendOrder = async () => {
-        const order = {
-            ingredients: this.state.ingredients,
-            customer: {
-                name: 'Test Name',
-                adress: {
-                    street: 'Test street',
-                    zipCode: '123456',
-                    country: 'Country Name',
-                },
-                email: 'test@example.com',
-            },
-            deliveryMethod: 'fastest',
-        };
-
-        try {
-            this.setState({ isLoading: true });
-            const response = await axios.post('/orders.json', order);
-            console.log(response);
-        } catch (err) {
-            console.error(err);
-        } finally {
-            this.setState({ isLoading: false, inOrderMode: false });
-        }
+    proceedToCheckout = async () => {
+        // const order = {
+        //     ingredients: this.state.ingredients,
+        //     customer: {
+        //         name: 'Test Name',
+        //         adress: {
+        //             street: 'Test street',
+        //             zipCode: '123456',
+        //             country: 'Country Name',
+        //         },
+        //         email: 'test@example.com',
+        //     },
+        //     deliveryMethod: 'fastest',
+        // };
+        // try {
+        //     this.setState({ isLoading: true });
+        //     const response = await axios.post('/orders.json', order);
+        //     console.log(response);
+        // } catch (err) {
+        //     console.error(err);
+        // } finally {
+        //     this.setState({ isLoading: false, inOrderMode: false });
+        // }
     };
 
     render() {
@@ -131,7 +133,7 @@ class BurgerBuilder extends Component {
                             ingredients={this.state.ingredients}
                             price={this.state.totalPrice}
                             cancelButtonHandler={this.orderModeOffHandler}
-                            okButtonHandler={this.sendOrder}
+                            okButtonHandler={this.proceedToCheckout}
                         />
                     ) : null}
                 </Modal>
