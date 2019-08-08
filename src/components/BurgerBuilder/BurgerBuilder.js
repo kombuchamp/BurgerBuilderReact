@@ -113,6 +113,9 @@ class BurgerBuilder extends Component {
         // } finally {
         //     this.setState({ isLoading: false, inOrderMode: false });
         // }
+
+        // Go to checkout
+        this.props.history.push('/checkout');
     };
 
     render() {
