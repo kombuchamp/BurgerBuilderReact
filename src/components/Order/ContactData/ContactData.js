@@ -16,6 +16,9 @@ export default class ContactData extends Component {
                     placeholder: 'Your Name',
                 },
                 value: '',
+                validationRules: { required: true },
+                valid: false,
+                touched: false,
             },
             street: {
                 elementType: 'input',
@@ -24,6 +27,9 @@ export default class ContactData extends Component {
                     placeholder: 'Street',
                 },
                 value: '',
+                validationRules: { required: true },
+                valid: false,
+                touched: false,
             },
             zipCode: {
                 elementType: 'input',
@@ -32,6 +38,9 @@ export default class ContactData extends Component {
                     placeholder: 'ZIP Code',
                 },
                 value: '',
+                validationRules: { required: true },
+                valid: false,
+                touched: false,
             },
             country: {
                 elementType: 'input',
@@ -40,6 +49,9 @@ export default class ContactData extends Component {
                     placeholder: 'Country',
                 },
                 value: '',
+                validationRules: { required: true },
+                valid: false,
+                touched: false,
             },
             email: {
                 elementType: 'input',
@@ -48,6 +60,9 @@ export default class ContactData extends Component {
                     placeholder: 'Your email',
                 },
                 value: '',
+                validationRules: { required: true },
+                valid: false,
+                touched: false,
             },
             deliveryMethod: {
                 elementType: 'select',
@@ -55,6 +70,9 @@ export default class ContactData extends Component {
                     options: [{ value: 'fastest', displayValue: 'Fastest' }, { value: 'chipest', displayValue: 'Chipest' }],
                 },
                 value: '',
+                validationRules: {},
+                valid: false,
+                touched: false,
             },
         },
         isLoading: false,
@@ -62,9 +80,14 @@ export default class ContactData extends Component {
 
     orderHandler = async ev => {
         ev.preventDefault();
-
+        this.setState({ isLoading: true });
+        const formData = {};
+        for (let formElemId in this.state.orderForm) {
+            formData[formElemId] = this.state.orderForm[formElemId].value;
+        }
         const order = {
             ingredients: this.props.ingredients,
+            orderData: formData,
         };
         try {
             this.setState({ isLoading: true });
@@ -76,12 +99,24 @@ export default class ContactData extends Component {
         }
     };
 
+    checkValidity(value, rules) {
+        let isValid = true;
+
+        if (rules.required) {
+            isValid = value.trim() === '';
+        }
+
+        return isValid;
+    }
+
     inputChangeHandler = (ev, inputIdentifier) => {
         // Copy both objects to avoid corrupting state
         const updatedOrderForm = { ...this.state.orderForm };
         const updatedElement = { ...updatedOrderForm[inputIdentifier] };
 
         updatedElement.value = ev.target.value;
+        updatedElement.valid = this.checkValidity(updatedElement.value, updatedElement.validationRules);
+        updatedElement.touched = true;
         updatedOrderForm[inputIdentifier] = updatedElement;
         this.setState({ orderForm: updatedOrderForm });
     };
@@ -100,7 +135,7 @@ export default class ContactData extends Component {
                 {this.state.isLoading ? (
                     <Progress />
                 ) : (
-                    <form>
+                    <form onSubmit={this.orderHandler}>
                         {formElementsArray.map(formElem => (
                             <Input
                                 key={formElem.id}
@@ -108,11 +143,10 @@ export default class ContactData extends Component {
                                 elementConfig={formElem.config.elementConfig}
                                 value={formElem.config.value}
                                 onChange={ev => this.inputChangeHandler(ev, formElem.id)}
+                                invalid={!!formElem.config.validationRules && formElem.config.touched && formElem.config.valid}
                             />
                         ))}
-                        <Button type="success" onClick={this.orderHandler}>
-                            {'ORDER'}
-                        </Button>
+                        <Button type="success">{'ORDER'}</Button>
                     </form>
                 )}
             </div>

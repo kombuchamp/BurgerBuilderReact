@@ -3,11 +3,16 @@ import styles from './Input.module.css';
 
 const Input = props => {
     let inputElement = null;
+    const inputStyles = [styles.InputElement];
+
+    if (props.invalid) {
+        inputStyles.push(styles.Invalid);
+    }
 
     switch (props.elementType) {
         case 'select':
             inputElement = (
-                <select onChange={props.onChange} className={styles.InputElement} value={props.value}>
+                <select onChange={props.onChange} className={inputStyles.join(' ')} value={props.value}>
                     {props.elementConfig.options.map(o => (
                         <option key={o.value} value={o.value}>
                             {o.displayValue}
@@ -21,7 +26,7 @@ const Input = props => {
             inputElement = (
                 <input
                     onChange={props.onChange}
-                    className={styles.InputElement}
+                    className={inputStyles.join(' ')}
                     type={props.elementType}
                     {...props.elementConfig}
                     value={props.value}
