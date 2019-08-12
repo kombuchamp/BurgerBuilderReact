@@ -76,6 +76,16 @@ export default class ContactData extends Component {
         }
     };
 
+    inputChangeHandler = (ev, inputIdentifier) => {
+        // Copy both objects to avoid corrupting state
+        const updatedOrderForm = { ...this.state.orderForm };
+        const updatedElement = { ...updatedOrderForm[inputIdentifier] };
+
+        updatedElement.value = ev.target.value;
+        updatedOrderForm[inputIdentifier] = updatedElement;
+        this.setState({ orderForm: updatedOrderForm });
+    };
+
     render() {
         const formElementsArray = [];
         for (let key in this.state.orderForm) {
@@ -97,6 +107,7 @@ export default class ContactData extends Component {
                                 elementType={formElem.config.elementType}
                                 elementConfig={formElem.config.elementConfig}
                                 value={formElem.config.value}
+                                onChange={ev => this.inputChangeHandler(ev, formElem.id)}
                             />
                         ))}
                         <Button type="success" onClick={this.orderHandler}>
