@@ -45,7 +45,7 @@ export default class ContactData extends Component {
     render() {
         return (
             <div className={styles.ContactData}>
-                <h4>Enter your contact data</h4>
+                <h4>Enter your contact data!</h4>
                 {this.state.isLoading ? (
                     <Progress />
                 ) : (

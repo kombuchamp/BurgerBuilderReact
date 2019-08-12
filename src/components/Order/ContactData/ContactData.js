@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Button from '../../UI/Button/Button';
 import Progress from '../../UI/Progress/Progress';
 import axios from '../../../util/axios-orders';
+import Input from '../../UI/Input/Input';
 
 import styles from './ContactData.module.css';
 
@@ -50,7 +51,7 @@ export default class ContactData extends Component {
                     <Progress />
                 ) : (
                     <form>
-                        <input autoFocus type="text" name="name" placeholder="Your Name" />
+                        <Input label={'hellp'} autoFocus type="text" name="name" placeholder="Your Name" />
                         <input type="email" name="email" placeholder="Your Email" />
                         <input type="text" name="street" placeholder="Street" />
                         <input type="text" name="postal" placeholder="Postal Code" />
