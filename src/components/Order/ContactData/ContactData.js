@@ -70,11 +70,12 @@ export default class ContactData extends Component {
                     options: [{ value: 'fastest', displayValue: 'Fastest' }, { value: 'chipest', displayValue: 'Chipest' }],
                 },
                 value: '',
-                validationRules: {},
-                valid: false,
+                validationRules: null,
+                valid: true,
                 touched: false,
             },
         },
+        isFormValid: false,
         isLoading: false,
     };
 
@@ -102,8 +103,10 @@ export default class ContactData extends Component {
     checkValidity(value, rules) {
         let isValid = true;
 
+        if (!rules) return isValid;
+
         if (rules.required) {
-            isValid = value.trim() === '';
+            isValid = value.trim() !== '' && isValid;
         }
 
         return isValid;
@@ -118,7 +121,12 @@ export default class ContactData extends Component {
         updatedElement.valid = this.checkValidity(updatedElement.value, updatedElement.validationRules);
         updatedElement.touched = true;
         updatedOrderForm[inputIdentifier] = updatedElement;
-        this.setState({ orderForm: updatedOrderForm });
+
+        let formIsValid = true;
+        for (let inputId in updatedOrderForm) {
+            formIsValid = updatedOrderForm[inputId].valid && formIsValid;
+        }
+        this.setState({ orderForm: updatedOrderForm, formIsValid });
     };
 
     render() {
@@ -136,17 +144,22 @@ export default class ContactData extends Component {
                     <Progress />
                 ) : (
                     <form onSubmit={this.orderHandler}>
-                        {formElementsArray.map(formElem => (
-                            <Input
-                                key={formElem.id}
-                                elementType={formElem.config.elementType}
-                                elementConfig={formElem.config.elementConfig}
-                                value={formElem.config.value}
-                                onChange={ev => this.inputChangeHandler(ev, formElem.id)}
-                                invalid={!!formElem.config.validationRules && formElem.config.touched && formElem.config.valid}
-                            />
-                        ))}
-                        <Button type="success">{'ORDER'}</Button>
+                        {formElementsArray.map(formElem => {
+                            console.log(formElem.config.value, formElem.config.validationRules);
+                            return (
+                                <Input
+                                    key={formElem.id}
+                                    elementType={formElem.config.elementType}
+                                    elementConfig={formElem.config.elementConfig}
+                                    value={formElem.config.value}
+                                    onChange={ev => this.inputChangeHandler(ev, formElem.id)}
+                                    invalid={formElem.config.validationRules && formElem.config.touched && !formElem.config.valid}
+                                />
+                            );
+                        })}
+                        <Button type="success" disabled={!this.state.formIsValid}>
+                            {'ORDER'}
+                        </Button>
                     </form>
                 )}
             </div>

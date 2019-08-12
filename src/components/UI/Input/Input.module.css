@@ -25,6 +25,6 @@
     outline:none;
 }
 
-.Invalid:focus {
+.Invalid {
     border: 1px solid salmon;
 }

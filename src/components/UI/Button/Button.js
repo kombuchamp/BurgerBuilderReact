@@ -5,6 +5,7 @@ const Button = props => (
     <button
         className={[styles.Button, props.type === 'success' ? styles.Success : props.type === 'danger' ? styles.Danger : ''].join(' ')}
         onClick={props.onClick}
+        disabled={props.disabled}
     >
         {props.children}
     </button>
