@@ -69,7 +69,7 @@ export default class ContactData extends Component {
                 elementConfig: {
                     options: [{ value: 'fastest', displayValue: 'Fastest' }, { value: 'chipest', displayValue: 'Chipest' }],
                 },
-                value: '',
+                value: 'fastest',
                 validationRules: null,
                 valid: true,
                 touched: false,
