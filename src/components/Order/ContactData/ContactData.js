@@ -8,13 +8,56 @@ import styles from './ContactData.module.css';
 
 export default class ContactData extends Component {
     state = {
-        isLoading: false,
-        name: '',
-        email: '',
-        adress: {
-            street: '',
-            postalCode: '',
+        orderForm: {
+            name: {
+                elementType: 'input',
+                elementConfig: {
+                    type: 'text',
+                    placeholder: 'Your Name',
+                },
+                value: '',
+            },
+            street: {
+                elementType: 'input',
+                elementConfig: {
+                    type: 'text',
+                    placeholder: 'Street',
+                },
+                value: '',
+            },
+            zipCode: {
+                elementType: 'input',
+                elementConfig: {
+                    type: 'text',
+                    placeholder: 'ZIP Code',
+                },
+                value: '',
+            },
+            country: {
+                elementType: 'input',
+                elementConfig: {
+                    type: 'text',
+                    placeholder: 'Country',
+                },
+                value: '',
+            },
+            email: {
+                elementType: 'input',
+                elementConfig: {
+                    type: 'email',
+                    placeholder: 'Your email',
+                },
+                value: '',
+            },
+            deliveryMethod: {
+                elementType: 'select',
+                elementConfig: {
+                    options: [{ value: 'fastest', displayValue: 'Fastest' }, { value: 'chipest', displayValue: 'Chipest' }],
+                },
+                value: '',
+            },
         },
+        isLoading: false,
     };
 
     orderHandler = async ev => {
@@ -22,16 +65,6 @@ export default class ContactData extends Component {
 
         const order = {
             ingredients: this.props.ingredients,
-            customer: {
-                name: 'Test Name',
-                adress: {
-                    street: 'Test street',
-                    zipCode: '123456',
-                    country: 'Country Name',
-                },
-                email: 'test@example.com',
-            },
-            deliveryMethod: 'fastest',
         };
         try {
             this.setState({ isLoading: true });
@@ -44,6 +77,13 @@ export default class ContactData extends Component {
     };
 
     render() {
+        const formElementsArray = [];
+        for (let key in this.state.orderForm) {
+            formElementsArray.push({
+                id: key,
+                config: this.state.orderForm[key],
+            });
+        }
         return (
             <div className={styles.ContactData}>
                 <h4>Enter your contact data</h4>
@@ -51,10 +91,14 @@ export default class ContactData extends Component {
                     <Progress />
                 ) : (
                     <form>
-                        <Input label={'hellp'} autoFocus type="text" name="name" placeholder="Your Name" />
-                        <input type="email" name="email" placeholder="Your Email" />
-                        <input type="text" name="street" placeholder="Street" />
-                        <input type="text" name="postal" placeholder="Postal Code" />
+                        {formElementsArray.map(formElem => (
+                            <Input
+                                key={formElem.id}
+                                elementType={formElem.config.elementType}
+                                elementConfig={formElem.config.elementConfig}
+                                value={formElem.config.value}
+                            />
+                        ))}
                         <Button type="success" onClick={this.orderHandler}>
                             {'ORDER'}
                         </Button>
