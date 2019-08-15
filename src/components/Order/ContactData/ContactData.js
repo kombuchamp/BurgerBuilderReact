@@ -4,6 +4,8 @@ import Progress from '../../UI/Progress/Progress';
 import axios from '../../../util/axios-orders';
 import Input from '../../UI/Input/Input';
 import { connect } from 'react-redux';
+import withErrorHandler from '../../HOC/withErrorHandler/withErrorHandler';
+import * as actions from '../../../store/actions/index';
 import styles from './ContactData.module.css';
 
 class ContactData extends Component {
@@ -81,7 +83,7 @@ class ContactData extends Component {
 
     orderHandler = async ev => {
         ev.preventDefault();
-        this.setState({ isLoading: true });
+        //this.setState({ isLoading: true });
         const formData = {};
         for (let formElemId in this.state.orderForm) {
             formData[formElemId] = this.state.orderForm[formElemId].value;
@@ -90,14 +92,15 @@ class ContactData extends Component {
             ingredients: this.props.ingredients,
             orderData: formData,
         };
-        try {
-            this.setState({ isLoading: true });
-            const response = await axios.post('/orders.json', order);
-            console.log('Successfully posted an order', response);
-            this.props.history.push('/');
-        } catch (err) {
-            console.error(err);
-        }
+
+        this.props.onOrderBurger(order);
+        // try {
+        //     const response = await axios.post('/orders.json', order);
+        //     console.log('Successfully posted an order', response);
+        //     this.props.history.push('/');
+        // } catch (err) {
+        //     console.error(err);
+        // }
     };
 
     checkValidity(value, rules) {
@@ -172,7 +175,13 @@ const mapStateToProps = state => {
     };
 };
 
+const mapDispatchToProps = dispatch => {
+    return {
+        onOrderBurger: orderData => dispatch(actions.purchaseBurgerStart(orderData)),
+    };
+};
+
 export default connect(
     mapStateToProps,
-    null
-)(ContactData);
+    mapDispatchToProps
+)(withErrorHandler(ContactData, axios));
