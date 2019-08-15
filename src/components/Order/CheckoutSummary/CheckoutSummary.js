@@ -24,7 +24,7 @@ const CheckoutSummary = props => {
 };
 
 const mapStateToProps = state => ({
-    price: state.totalPrice,
+    price: state.burgerBuilder.totalPrice,
 });
 
 export default connect(

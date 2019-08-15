@@ -102,6 +102,7 @@ class BurgerBuilder extends Component {
         // }
         // query.push(`price=${this.props.totalPrice}`);
         // const queryString = query.join('&');
+        this.props.inInitPurchase();
         this.props.history.push({ pathname: '/checkout' /*, search: '?' + queryString */ });
     };
 
@@ -165,8 +166,10 @@ const mapDispatchToProps = dispatch => {
             dispatch(actions.removeIngredient(ingredientName));
         },
         onInitIngredients: () => dispatch(actions.initIngredients()),
+        inInitPurchase: () => dispatch(actions.purchaseInit()),
     };
 };
+
 export default connect(
     mapStateToProps,
     mapDispatchToProps
