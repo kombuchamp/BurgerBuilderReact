@@ -25,6 +25,6 @@
     outline:none;
 }
 
-.Invalid {
+.Invalid, .InputElement:invalid {
     border: 1px solid salmon;
 }
