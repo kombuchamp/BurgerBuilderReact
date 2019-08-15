@@ -78,7 +78,7 @@ class ContactData extends Component {
             },
         },
         isFormValid: false,
-        isLoading: false,
+        //isLoading: false,
     };
 
     orderHandler = async ev => {
@@ -143,7 +143,7 @@ class ContactData extends Component {
         return (
             <div className={styles.ContactData}>
                 <h4>Enter your contact data</h4>
-                {this.state.isLoading ? (
+                {this.props.isLoading ? (
                     <Progress />
                 ) : (
                     <form onSubmit={this.orderHandler}>
@@ -172,12 +172,13 @@ class ContactData extends Component {
 const mapStateToProps = state => {
     return {
         ingredients: state.ingredients,
+        isLoading: state.isLoading,
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        onOrderBurger: orderData => dispatch(actions.purchaseBurgerStart(orderData)),
+        onOrderBurger: orderData => dispatch(actions.purchaseBurger(orderData)),
     };
 };
 
