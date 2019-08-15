@@ -19,35 +19,36 @@ class BurgerBuilder extends Component {
             // totalPrice: 4,
             // isOrderable: false,
             inOrderMode: false,
-            isLoading: false,
-            error: false,
+            // isLoading: false,
+            // error: false,
         };
     }
 
-    // componentDidMount() {
-    //     (async () => {
-    //         try {
-    //             const response = await axios.get('/ingredients.json');
-    //             this.setState(
-    //                 {
-    //                     ingredients: response.data,
-    //                 },
-    //                 this.updateIsOrderableState
-    //             );
-    //         } catch (err) {
-    //             console.error(err);
-    //             this.setState({ error: true });
-    //         }
-    //     })();
-    // }
+    componentDidMount() {
+        this.props.onInitIngredients();
+        //     (async () => {
+        //         try {
+        //             const response = await axios.get('/ingredients.json');
+        //             this.setState(
+        //                 {
+        //                     ingredients: response.data,
+        //                 },
+        //                 this.updateIsOrderableState
+        //             );
+        //         } catch (err) {
+        //             console.error(err);
+        //             this.setState({ error: true });
+        //         }
+        //     })();
+        // }
 
-    // updateIsOrderableState = () => {
-    //     this.setState({
-    //         isOrderable: Object.values(this.state.ingredients).every(amount => amount <= 0) // No ingredients chosen
-    //             ? false
-    //             : true,
-    //     });
-    // };
+        // updateIsOrderableState = () => {
+        //     this.setState({
+        //         isOrderable: Object.values(this.state.ingredients).every(amount => amount <= 0) // No ingredients chosen
+        //             ? false
+        //             : true,
+        //     });
+    }
 
     isBurgerOrderable = () => {
         return Object.values(this.props.ingredients).every(amount => amount <= 0) // No ingredients chosen
@@ -115,18 +116,17 @@ class BurgerBuilder extends Component {
         return (
             <>
                 <Modal isOpen={this.state.inOrderMode} closeHandler={this.orderModeOffHandler}>
-                    {this.state.isLoading ? (
-                        <Progress />
-                    ) : this.props.ingredients ? (
+                    {this.props.ingredients ? (
                         <OrderSummary
                             ingredients={this.props.ingredients}
                             price={this.props.totalPrice}
                             cancelButtonHandler={this.orderModeOffHandler}
                             okButtonHandler={this.proceedToCheckout}
                         />
-                    ) : null}
+                    ) : null // Progress spinner?
+                    }
                 </Modal>
-                {this.state.error ? (
+                {this.props.error ? (
                     <p>Error occured while loading the ingredients. Try refreshing the page or check developer console for details.</p>
                 ) : this.props.ingredients ? (
                     <>
@@ -152,6 +152,7 @@ const mapStateToProps = state => {
     return {
         ingredients: state.ingredients,
         totalPrice: state.totalPrice,
+        error: state.error,
     };
 };
 
@@ -163,6 +164,7 @@ const mapDispatchToProps = dispatch => {
         onIngredientRemoved: ingredientName => {
             dispatch(actions.removeIngredient(ingredientName));
         },
+        onInitIngredients: () => dispatch(actions.initIngredients()),
     };
 };
 export default connect(
