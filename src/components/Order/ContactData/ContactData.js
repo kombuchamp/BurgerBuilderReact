@@ -3,10 +3,10 @@ import Button from '../../UI/Button/Button';
 import Progress from '../../UI/Progress/Progress';
 import axios from '../../../util/axios-orders';
 import Input from '../../UI/Input/Input';
-
+import { connect } from 'react-redux';
 import styles from './ContactData.module.css';
 
-export default class ContactData extends Component {
+class ContactData extends Component {
     state = {
         orderForm: {
             name: {
@@ -145,7 +145,6 @@ export default class ContactData extends Component {
                 ) : (
                     <form onSubmit={this.orderHandler}>
                         {formElementsArray.map(formElem => {
-                            console.log(formElem.config.value, formElem.config.validationRules);
                             return (
                                 <Input
                                     key={formElem.id}
@@ -166,3 +165,14 @@ export default class ContactData extends Component {
         );
     }
 }
+
+const mapStateToProps = state => {
+    return {
+        ingredients: state.ingredients,
+    };
+};
+
+export default connect(
+    mapStateToProps,
+    null
+)(ContactData);

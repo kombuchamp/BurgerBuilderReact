@@ -2,6 +2,7 @@ import React from 'react';
 import Burger from '../../Burger/Burger';
 import Button from '../../UI/Button/Button';
 import styles from './CheckoutSummary.module.css';
+import { connect } from 'react-redux';
 
 const CheckoutSummary = props => {
     const { price } = props;
@@ -22,4 +23,11 @@ const CheckoutSummary = props => {
     );
 };
 
-export default CheckoutSummary;
+const mapStateToProps = state => ({
+    price: state.totalPrice,
+});
+
+export default connect(
+    mapStateToProps,
+    null
+)(CheckoutSummary);
