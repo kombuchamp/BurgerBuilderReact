@@ -41,8 +41,10 @@ class Checkout extends Component {
     render() {
         return (
             <div>
-                {!this.props.ingredients || this.props.isPurchased ? (
+                {!this.props.ingredients ? (
                     <Redirect to="/" />
+                ) : this.props.isPurchased ? (
+                    <Redirect to="/orders" />
                 ) : (
                     <CheckoutSummary
                         ingredients={this.props.ingredients}
