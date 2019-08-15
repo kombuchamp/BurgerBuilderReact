@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
 import Burger from '../../components/Burger/Burger';
 import BuildControls from '../../components/Burger/BuildControls/BuildControls';
 import Modal from '../../components/UI/Modal/Modal';
@@ -6,6 +8,7 @@ import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
 import axios from '../../util/axios-orders';
 import Progress from '../UI/Progress/Progress';
 import withErrorHandler from '../HOC/withErrorHandler/withErrorHandler';
+import * as actionTypes from '../../store/actions';
 
 const INGREDIENT_PRICES = {
     salad: 0.5,
@@ -19,7 +22,7 @@ class BurgerBuilder extends Component {
         super(props);
 
         this.state = {
-            ingredients: null,
+            // ingredients: null,
             totalPrice: 4,
             isOrderable: false,
             inOrderMode: false,
@@ -28,22 +31,22 @@ class BurgerBuilder extends Component {
         };
     }
 
-    componentDidMount() {
-        (async () => {
-            try {
-                const response = await axios.get('/ingredients.json');
-                this.setState(
-                    {
-                        ingredients: response.data,
-                    },
-                    this.updateIsOrderableState
-                );
-            } catch (err) {
-                console.error(err);
-                this.setState({ error: true });
-            }
-        })();
-    }
+    // componentDidMount() {
+    //     (async () => {
+    //         try {
+    //             const response = await axios.get('/ingredients.json');
+    //             this.setState(
+    //                 {
+    //                     ingredients: response.data,
+    //                 },
+    //                 this.updateIsOrderableState
+    //             );
+    //         } catch (err) {
+    //             console.error(err);
+    //             this.setState({ error: true });
+    //         }
+    //     })();
+    // }
 
     updateIsOrderableState = () => {
         this.setState({
@@ -104,7 +107,7 @@ class BurgerBuilder extends Component {
 
     render() {
         const disabledInfo = {
-            ...this.state.ingredients,
+            ...this.props.ingredients,
         };
         for (let key in disabledInfo) {
             disabledInfo[key] = disabledInfo[key] <= 0;
@@ -115,9 +118,9 @@ class BurgerBuilder extends Component {
                 <Modal isOpen={this.state.inOrderMode} closeHandler={this.orderModeOffHandler}>
                     {this.state.isLoading ? (
                         <Progress />
-                    ) : this.state.ingredients ? (
+                    ) : this.props.ingredients ? (
                         <OrderSummary
-                            ingredients={this.state.ingredients}
+                            ingredients={this.props.ingredients}
                             price={this.state.totalPrice}
                             cancelButtonHandler={this.orderModeOffHandler}
                             okButtonHandler={this.proceedToCheckout}
@@ -126,12 +129,12 @@ class BurgerBuilder extends Component {
                 </Modal>
                 {this.state.error ? (
                     <p>Error occured while loading the ingredients. Try refreshing the page or check developer console for details.</p>
-                ) : this.state.ingredients ? (
+                ) : this.props.ingredients ? (
                     <>
-                        <Burger ingredients={this.state.ingredients} />
+                        <Burger ingredients={this.props.ingredients} />
                         <BuildControls
-                            ingredientAdded={this.addIngredientHandler}
-                            ingredientRemoved={this.removeIngredientHandler}
+                            ingredientAdded={this.props.onIngredientAdded}
+                            ingredientRemoved={this.props.onIngredientRemoved}
                             disabledInfo={disabledInfo}
                             price={this.state.totalPrice}
                             isOrderable={this.state.isOrderable}
@@ -146,4 +149,33 @@ class BurgerBuilder extends Component {
     }
 }
 
-export default withErrorHandler(BurgerBuilder, axios);
+const mapStateToProps = state => {
+    return {
+        ingredients: state.ingredients,
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onIngredientAdded: ingredientName => {
+            dispatch({
+                type: actionTypes.ADD_INGREIDENT,
+                payload: {
+                    ingredientName,
+                },
+            });
+        },
+        onIngredientRemoved: ingredientName => {
+            dispatch({
+                type: actionTypes.REMOVE_INGREIDENT,
+                payload: {
+                    ingredientName,
+                },
+            });
+        },
+    };
+};
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(withErrorHandler(BurgerBuilder, axios));
