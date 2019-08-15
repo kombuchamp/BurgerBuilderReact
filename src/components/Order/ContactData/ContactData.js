@@ -171,8 +171,8 @@ class ContactData extends Component {
 
 const mapStateToProps = state => {
     return {
-        ingredients: state.ingredients,
-        isLoading: state.isLoading,
+        ingredients: state.burgerBuilder.ingredients,
+        isLoading: state.order.isLoading,
     };
 };
 
