@@ -7,13 +7,7 @@ import * as actions from '../../store/actions/index';
 import Progress from '../UI/Progress/Progress';
 
 class Orders extends Component {
-    // state = {
-    //     orders: [],
-    //     isLoading: true,
-    // };
-
     componentDidMount() {
-        //this.updateOrders();
         this.props.onFetchOrders();
     }
 
@@ -36,7 +30,9 @@ class Orders extends Component {
     };
 
     render() {
-        return this.props.isLoading ? (
+        return this.props.error ? (
+            <p>Error occured</p>
+        ) : this.props.isLoading ? (
             <Progress />
         ) : (
             <div>
@@ -52,6 +48,7 @@ const mapStateToProps = state => {
     return {
         orders: state.order.orders,
         isLoading: state.order.isLoading,
+        error: state.order.fetchError,
     };
 };
 
@@ -61,7 +58,10 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(withErrorHandler(Orders, axios));
+export default withErrorHandler(
+    connect(
+        mapStateToProps,
+        mapDispatchToProps
+    )(Orders),
+    axios
+);

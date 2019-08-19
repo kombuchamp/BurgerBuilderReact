@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import Modal from '../../UI/Modal/Modal';
 
+// TODO: Rewrite it for redux, 'connect' method messes up this HOC
 const withErrorHandler = (WrappedComponent, axios) => {
     return class extends Component {
         constructor() {
             super();
-
             this.state = {
                 error: null,
             };
@@ -35,7 +35,7 @@ const withErrorHandler = (WrappedComponent, axios) => {
         render() {
             return (
                 <>
-                    <Modal isOpen={this.state.error} closeHandler={() => this.setState({ error: null })}>
+                    <Modal isOpen={!!this.state.error} closeHandler={() => this.setState({ error: null })}>
                         {this.state.error && this.state.error.message}
                     </Modal>
                     <WrappedComponent {...this.props} />

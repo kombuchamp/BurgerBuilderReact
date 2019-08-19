@@ -4,6 +4,7 @@ const initialState = {
     orders: [],
     isLoading: false,
     isPurchased: false,
+    fetchError: null,
 };
 
 const reducer = (state = initialState, action) => {
@@ -44,11 +45,13 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 orders: action.payload.orders,
                 isLoading: false,
+                fetchError: false, // TODO: get error
             };
         case actionTypes.FETCH_ORDERS_FAIL:
             return {
                 ...state,
                 isLoading: false,
+                fetchError: true, // TODO: get error
             };
         default:
             return state;

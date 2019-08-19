@@ -76,6 +76,10 @@ export const fetchOrders = () => {
         const orders = [];
         try {
             const response = await axios.get('/orders.json');
+            // For some reason axios doesnt reject promise if response is 4xx. Catch it manualy
+            if (!response) {
+                throw Error();
+            }
             for (let key in response.data) {
                 orders.push({
                     ...response.data[key],
