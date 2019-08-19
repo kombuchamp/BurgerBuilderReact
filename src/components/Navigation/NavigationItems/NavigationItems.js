@@ -6,7 +6,7 @@ const NavigationItems = props => {
     return (
         <ul className={styles.NavigationItems}>
             <NavigationItem link="/">Bugrer Builder</NavigationItem>
-            <NavigationItem link="/orders">Orders</NavigationItem>
+            {props.isAuthenticated && <NavigationItem link="/orders">Orders</NavigationItem>}
             {props.isAuthenticated ? (
                 <NavigationItem link="/logout">Logout</NavigationItem>
             ) : (

@@ -15,39 +15,12 @@ class BurgerBuilder extends Component {
         super(props);
 
         this.state = {
-            // ingredients: null,
-            // totalPrice: 4,
-            // isOrderable: false,
             inOrderMode: false,
-            // isLoading: false,
-            // error: false,
         };
     }
 
     componentDidMount() {
         this.props.onInitIngredients();
-        //     (async () => {
-        //         try {
-        //             const response = await axios.get('/ingredients.json');
-        //             this.setState(
-        //                 {
-        //                     ingredients: response.data,
-        //                 },
-        //                 this.updateIsOrderableState
-        //             );
-        //         } catch (err) {
-        //             console.error(err);
-        //             this.setState({ error: true });
-        //         }
-        //     })();
-        // }
-
-        // updateIsOrderableState = () => {
-        //     this.setState({
-        //         isOrderable: Object.values(this.state.ingredients).every(amount => amount <= 0) // No ingredients chosen
-        //             ? false
-        //             : true,
-        //     });
     }
 
     isBurgerOrderable = () => {
@@ -56,37 +29,11 @@ class BurgerBuilder extends Component {
             : true;
     };
 
-    // addIngredientHandler = type => {
-    //     const oldCount = this.state.ingredients[type];
-    //     this.setState(
-    //         {
-    //             ingredients: {
-    //                 ...this.state.ingredients,
-    //                 [type]: oldCount + 1,
-    //             },
-    //             totalPrice: this.state.totalPrice + INGREDIENT_PRICES[type],
-    //         },
-    //         this.updateIsOrderableState
-    //     );
-    // };
-
-    // removeIngredientHandler = type => {
-    //     const oldCount = this.state.ingredients[type];
-    //     if (oldCount <= 0) return;
-    //     this.setState(
-    //         {
-    //             ingredients: {
-    //                 ...this.state.ingredients,
-    //                 [type]: oldCount - 1,
-    //             },
-    //             totalPrice: this.state.totalPrice - INGREDIENT_PRICES[type],
-    //         },
-    //         this.updateIsOrderableState
-    //     );
-    // };
-
     orderButtonHandler = () => {
-        this.setState({ inOrderMode: true });
+        if (this.props.isAuthenticated) {
+            return this.setState({ inOrderMode: true });
+        }
+        this.props.history.push({ pathname: '/auth' });
     };
 
     orderModeOffHandler = () => {
@@ -94,16 +41,8 @@ class BurgerBuilder extends Component {
     };
 
     proceedToCheckout = async () => {
-        // const query = [];
-        // for (let i in this.state.ingredients) {
-        //     const key = encodeURIComponent(i);
-        //     const value = encodeURIComponent(this.state.ingredients[i]);
-        //     query.push(`${key}=${value}`);
-        // }
-        // query.push(`price=${this.props.totalPrice}`);
-        // const queryString = query.join('&');
         this.props.inInitPurchase();
-        this.props.history.push({ pathname: '/checkout' /*, search: '?' + queryString */ });
+        this.props.history.push({ pathname: '/checkout' });
     };
 
     render() {
@@ -154,6 +93,7 @@ const mapStateToProps = state => {
         ingredients: state.burgerBuilder.ingredients,
         totalPrice: state.burgerBuilder.totalPrice,
         error: state.burgerBuilder.error,
+        isAuthenticated: !!state.auth.idToken,
     };
 };
 

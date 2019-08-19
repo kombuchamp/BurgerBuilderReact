@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Input from '../UI/Input/Input';
 import Button from '../UI/Button/Button';
 import Progress from '../UI/Progress/Progress';
+import { Redirect } from 'react-router-dom';
 import styles from './Auth.module.css';
 import * as actions from '../../store/actions/index';
 import { connect } from 'react-redux';
@@ -85,6 +86,9 @@ class Auth extends Component {
     };
 
     render() {
+        if (this.props.isAuthenticated) {
+            return <Redirect to="/" />;
+        }
         return (
             <div className={styles.Auth}>
                 {this.errorMessage}
@@ -132,6 +136,7 @@ const mapStateToProps = state => {
     return {
         isLoading: state.auth.isLoading,
         error: state.auth.error,
+        isAuthenticated: !!state.auth.idToken,
     };
 };
 
