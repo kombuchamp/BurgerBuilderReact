@@ -33,7 +33,7 @@ class BurgerBuilder extends Component {
         if (this.props.isAuthenticated) {
             return this.setState({ inOrderMode: true });
         }
-        this.props.history.push({ pathname: '/auth' });
+        this.props.history.push({ pathname: '/auth', search: '?order=true' });
     };
 
     orderModeOffHandler = () => {

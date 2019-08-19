@@ -87,7 +87,8 @@ class Auth extends Component {
 
     render() {
         if (this.props.isAuthenticated) {
-            return <Redirect to="/" />;
+            // If query params are present, then checkout (no need to parse them since we have only one scenario of using them)
+            return <Redirect to={this.props.history.location.search ? '/checkout' : '/'} />;
         }
         return (
             <div className={styles.Auth}>
@@ -137,6 +138,7 @@ const mapStateToProps = state => {
         isLoading: state.auth.isLoading,
         error: state.auth.error,
         isAuthenticated: !!state.auth.idToken,
+        isBuilderTouched: state.burgerBuilder.isTouched,
     };
 };
 
