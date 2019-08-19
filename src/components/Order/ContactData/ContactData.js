@@ -78,12 +78,10 @@ class ContactData extends Component {
             },
         },
         isFormValid: false,
-        //isLoading: false,
     };
 
     orderHandler = async ev => {
         ev.preventDefault();
-        //this.setState({ isLoading: true });
         const formData = {};
         for (let formElemId in this.state.orderForm) {
             formData[formElemId] = this.state.orderForm[formElemId].value;
@@ -91,6 +89,7 @@ class ContactData extends Component {
         const order = {
             ingredients: this.props.ingredients,
             orderData: formData,
+            userId: this.props.userId,
         };
 
         this.props.onOrderBurger(order, this.props.idToken);
@@ -167,6 +166,7 @@ const mapStateToProps = state => {
         ingredients: state.burgerBuilder.ingredients,
         isLoading: state.order.isLoading,
         idToken: state.auth.idToken,
+        userId: state.auth.userId,
     };
 };
 

@@ -74,7 +74,7 @@ export const fetchOrdersStart = () => {
     };
 };
 
-export const fetchOrders = idToken => {
+export const fetchOrders = (idToken, userId) => {
     return async dispatch => {
         dispatch(fetchOrdersStart());
         const orders = [];
@@ -82,6 +82,8 @@ export const fetchOrders = idToken => {
             const response = await axios.get('/orders.json', {
                 params: {
                     auth: idToken,
+                    orderBy: '"userId"',
+                    equalTo: `"${userId}"`,
                 },
             });
             // For some reason axios doesnt reject promise if response is 4xx. Catch it manualy
