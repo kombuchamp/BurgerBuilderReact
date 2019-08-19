@@ -68,7 +68,8 @@ class Auth extends Component {
 
     submitHandler = ev => {
         ev.preventDefault();
-        const { email, password } = this.state.controls;
+        const email = this.state.controls.email.value;
+        const password = this.state.controls.password.value;
         this.props.onAuth(email, password);
     };
 
