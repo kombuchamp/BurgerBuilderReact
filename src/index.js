@@ -21,7 +21,7 @@ const rootReducer = combineReducers({
 });
 
 const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk)));
-console.log(process.env.REACT_APP_URL_BASE_NAME);
+
 ReactDOM.render(
     <Provider store={store}>
         <BrowserRouter basename={process.env.REACT_APP_URL_BASE_NAME}>
