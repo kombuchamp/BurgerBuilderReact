@@ -1,4 +1,5 @@
 import * as actionTypes from './actionTypes';
+import axios from 'axios';
 
 export const authStart = () => {
     return {
@@ -27,7 +28,21 @@ export const authError = error => {
 export const auth = (email, password) => {
     return async dispatch => {
         dispatch(authStart());
+        const authData = {
+            email,
+            password,
+            returnSecureToken: true,
+        };
+        console.log(authData);
+        try {
+            const response = await axios.post(
+                `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${process.env.REACT_APP_FIREBASE_API_KEY}`,
+                authData
+            );
+            dispatch(authSuccess(response.data));
+        } catch (err) {
+            console.error(err);
+            dispatch(authError(err));
+        }
     };
 };
-
-//TODO: 6
