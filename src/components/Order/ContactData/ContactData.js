@@ -93,14 +93,7 @@ class ContactData extends Component {
             orderData: formData,
         };
 
-        this.props.onOrderBurger(order);
-        // try {
-        //     const response = await axios.post('/orders.json', order);
-        //     console.log('Successfully posted an order', response);
-        //     this.props.history.push('/');
-        // } catch (err) {
-        //     console.error(err);
-        // }
+        this.props.onOrderBurger(order, this.props.idToken);
     };
 
     checkValidity(value, rules) {
@@ -173,12 +166,13 @@ const mapStateToProps = state => {
     return {
         ingredients: state.burgerBuilder.ingredients,
         isLoading: state.order.isLoading,
+        idToken: state.auth.idToken,
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        onOrderBurger: orderData => dispatch(actions.purchaseBurger(orderData)),
+        onOrderBurger: (orderData, idToken) => dispatch(actions.purchaseBurger(orderData, idToken)),
     };
 };
 

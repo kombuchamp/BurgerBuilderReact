@@ -26,11 +26,15 @@ export const purchaseBurgerStart = () => {
     };
 };
 
-export const purchaseBurger = orderData => {
+export const purchaseBurger = (orderData, idToken) => {
     return async dispatch => {
         dispatch(purchaseBurgerStart());
         try {
-            const response = await axios.post('/orders.json', orderData);
+            const response = await axios.post('/orders.json', orderData, {
+                params: {
+                    auth: idToken,
+                },
+            });
             console.log('Successfully posted an order', response);
             dispatch(purchaseBurgerSuccess(response.data.name, orderData));
         } catch (err) {
@@ -70,12 +74,16 @@ export const fetchOrdersStart = () => {
     };
 };
 
-export const fetchOrders = () => {
+export const fetchOrders = idToken => {
     return async dispatch => {
         dispatch(fetchOrdersStart());
         const orders = [];
         try {
-            const response = await axios.get('/orders.json');
+            const response = await axios.get('/orders.json', {
+                params: {
+                    auth: idToken,
+                },
+            });
             // For some reason axios doesnt reject promise if response is 4xx. Catch it manualy
             if (!response) {
                 throw Error();

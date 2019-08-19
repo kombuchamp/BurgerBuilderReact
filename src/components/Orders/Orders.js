@@ -8,7 +8,7 @@ import Progress from '../UI/Progress/Progress';
 
 class Orders extends Component {
     componentDidMount() {
-        this.props.onFetchOrders();
+        this.props.onFetchOrders(this.props.idToken);
     }
 
     updateOrders = async () => {
@@ -47,6 +47,7 @@ class Orders extends Component {
 const mapStateToProps = state => {
     return {
         orders: state.order.orders,
+        idToken: state.auth.idToken,
         isLoading: state.order.isLoading,
         error: state.order.fetchError,
     };
@@ -54,7 +55,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onFetchOrders: () => dispatch(actions.fetchOrders()),
+        onFetchOrders: idToken => dispatch(actions.fetchOrders(idToken)),
     };
 };
 
