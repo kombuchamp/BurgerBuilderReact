@@ -6,7 +6,6 @@
     cursor: pointer;
     font: inherit;
     padding: 10px;
-    margin: 10px;
     font-weight: bold;
 }
 
@@ -26,4 +25,8 @@
 
 .Danger {
     color: #e93939;
+}
+
+.Info {
+    color: rgb(23, 137, 243);
 }

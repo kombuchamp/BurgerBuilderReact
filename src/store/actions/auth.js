@@ -25,7 +25,7 @@ export const authError = error => {
     };
 };
 
-export const auth = (email, password) => {
+export const auth = (email, password, isSignUp) => {
     return async dispatch => {
         dispatch(authStart());
         const authData = {
@@ -33,11 +33,12 @@ export const auth = (email, password) => {
             password,
             returnSecureToken: true,
         };
+        const apiKey = process.env.REACT_APP_FIREBASE_API_KEY;
+        const url = isSignUp
+            ? `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${apiKey}`
+            : `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${apiKey}`;
         try {
-            const response = await axios.post(
-                `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${process.env.REACT_APP_FIREBASE_API_KEY}`,
-                authData
-            );
+            const response = await axios.post(url, authData);
             dispatch(authSuccess(response.data));
         } catch (err) {
             console.error(err);
