@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Input from '../UI/Input/Input';
 import Button from '../UI/Button/Button';
+import Progress from '../UI/Progress/Progress';
 import styles from './Auth.module.css';
 import * as actions from '../../store/actions/index';
 import { connect } from 'react-redux';
@@ -86,9 +87,10 @@ class Auth extends Component {
     render() {
         return (
             <div className={styles.Auth}>
+                {this.errorMessage}
                 <form onSubmit={this.submitHandler}>
                     <h1>{this.state.isSignUp ? 'Create New Account' : 'Sign In'}</h1>
-                    {this.formControls}
+                    {this.props.isLoading ? <Progress /> : this.formControls}
                     <Button type="success">SUBMIT</Button>
                 </form>
                 <p>{this.state.isSignUp ? 'Already have an account?' : 'Dont have an account?'} </p>
@@ -120,13 +122,24 @@ class Auth extends Component {
             );
         });
     }
+
+    get errorMessage() {
+        return this.props.error && <p>{this.props.error.message}</p>;
+    }
 }
+
+const mapStateToProps = state => {
+    return {
+        isLoading: state.auth.isLoading,
+        error: state.auth.error,
+    };
+};
 
 const mapDispatchToProps = dispatch => ({
     onAuth: (email, password, isSignUp) => dispatch(actions.auth(email, password, isSignUp)),
 });
 
 export default connect(
-    null,
+    mapStateToProps,
     mapDispatchToProps
 )(Auth);
