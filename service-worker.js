@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/BurgerBuilderReact/precache-manifest.b55f3c1de3f4a2f7c3424fae478aad38.js"
+  "https://kombuchamp.github.io/BurgerBuilderReact/precache-manifest.105bd243eb78d61846311371b2543e3f.js"
 );
 
 workbox.clientsClaim();
@@ -28,7 +28,7 @@ self.__precacheManifest = [].concat(self.__precacheManifest || []);
 workbox.precaching.suppressWarnings();
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
 
-workbox.routing.registerNavigationRoute("/BurgerBuilderReact/index.html", {
+workbox.routing.registerNavigationRoute("https://kombuchamp.github.io/BurgerBuilderReact/index.html", {
   
   blacklist: [/^\/_/,/\/[^\/]+\.[^\/]+$/],
 });
