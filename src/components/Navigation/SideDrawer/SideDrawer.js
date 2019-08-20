@@ -7,6 +7,11 @@ import Backdrop from '../../UI/Backdrop/Backdrop';
 const SideDrawer = props => {
     const classes = [styles.SideDrawer, props.isOpen ? styles.Open : styles.Close].join(' ');
 
+    // Close sidebar if link area is clicked
+    const sideDrawerClick = ev => {
+        props.close();
+    };
+
     return (
         <>
             <Backdrop isOpen={props.isOpen} onClick={props.close} />
@@ -14,7 +19,7 @@ const SideDrawer = props => {
                 <div className={styles.Logo}>
                     <Logo />
                 </div>
-                <nav>
+                <nav onClick={sideDrawerClick}>
                     <NavigationItems isAuthenticated={props.isAuthenticated} />
                 </nav>
             </div>
