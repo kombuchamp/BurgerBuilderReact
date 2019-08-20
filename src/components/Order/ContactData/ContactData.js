@@ -6,6 +6,7 @@ import Input from '../../UI/Input/Input';
 import { connect } from 'react-redux';
 import withErrorHandler from '../../HOC/withErrorHandler/withErrorHandler';
 import * as actions from '../../../store/actions/index';
+import checkValidity from '../../../util/checkValidity';
 import styles from './ContactData.module.css';
 
 class ContactData extends Component {
@@ -95,25 +96,13 @@ class ContactData extends Component {
         this.props.onOrderBurger(order, this.props.idToken);
     };
 
-    checkValidity(value, rules) {
-        let isValid = true;
-
-        if (!rules) return isValid;
-
-        if (rules.required) {
-            isValid = value.trim() !== '' && isValid;
-        }
-
-        return isValid;
-    }
-
     inputChangeHandler = (ev, inputIdentifier) => {
         // Copy both objects to avoid corrupting state
         const updatedOrderForm = { ...this.state.orderForm };
         const updatedElement = { ...updatedOrderForm[inputIdentifier] };
 
         updatedElement.value = ev.target.value;
-        updatedElement.valid = this.checkValidity(updatedElement.value, updatedElement.validationRules);
+        updatedElement.valid = checkValidity(updatedElement.value, updatedElement.validationRules);
         updatedElement.touched = true;
         updatedOrderForm[inputIdentifier] = updatedElement;
 
