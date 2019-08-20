@@ -38,7 +38,7 @@ export const logout = () => {
 export const checkAuthTimeout = expirationTime => {
     return dispatch => {
         setTimeout(() => {
-            console.log('User token has been expired');
+            console.warn('User token has been expired');
             dispatch(logout());
         }, expirationTime * 1000);
     };

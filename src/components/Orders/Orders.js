@@ -21,7 +21,6 @@ class Orders extends Component {
                     id: key,
                 });
             }
-            console.log(response);
         } catch (err) {
             console.error(err);
         } finally {

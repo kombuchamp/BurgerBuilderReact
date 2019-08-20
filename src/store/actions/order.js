@@ -35,7 +35,6 @@ export const purchaseBurger = (orderData, idToken) => {
                     auth: idToken,
                 },
             });
-            console.log('Successfully posted an order', response);
             dispatch(purchaseBurgerSuccess(response.data.name, orderData));
         } catch (err) {
             console.error(err);
@@ -96,7 +95,6 @@ export const fetchOrders = (idToken, userId) => {
                     id: key,
                 });
             }
-            console.log(response);
             dispatch(fetchOrdersSuccess(orders));
         } catch (err) {
             console.error(err);
