@@ -30,7 +30,7 @@
     "gh-pages": "^2.1.1",
     "html-webpack-plugin": "4.0.0-alpha.2",
     "identity-obj-proxy": "3.0.0",
-    "jest": "^24.8.0",
+    "jest": "^24.9.0",
     "jest-pnp-resolver": "1.0.2",
     "jest-resolve": "23.6.0",
     "jest-watch-typeahead": "^0.2.1",
@@ -64,6 +64,7 @@
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js",
+    "jest": "jest",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
   },
@@ -87,7 +88,8 @@
     ],
     "testMatch": [
       "<rootDir>/src/**/__tests__/**/*.{js,jsx,ts,tsx}",
-      "<rootDir>/src/**/?(*.)(spec|test).{js,jsx,ts,tsx}"
+      "<rootDir>/src/**/?(*.)(spec|test).{js,jsx,ts,tsx}",
+      "<rootDir>/src/**/*(*.)@(spec|test).[tj]s?(x)"
     ],
     "testEnvironment": "jsdom",
     "testURL": "http://localhost",
@@ -116,7 +118,8 @@
       "jsx",
       "node"
     ],
-    "watchPlugins": []
+    "watchPlugins": [
+    ]
   },
   "babel": {
     "presets": [
