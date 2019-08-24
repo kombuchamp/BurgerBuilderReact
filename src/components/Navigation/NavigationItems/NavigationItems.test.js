@@ -13,4 +13,14 @@ describe('<NavigationItems />', () => {
         const wrapper = shallow(<NavigationItems />);
         expect(wrapper.find(NavigationItem)).toHaveLength(2);
     });
+
+    it('should render 3 <NavigationItem /> if authenticated', () => {
+        const wrapper = shallow(<NavigationItems isAuthenticated />);
+        expect(wrapper.find(NavigationItem)).toHaveLength(3);
+    });
+
+    it('should render logout link if autheticated', () => {
+        const wrapper = shallow(<NavigationItems isAuthenticated />);
+        expect(wrapper.contains(<NavigationItem link="/logout">Logout</NavigationItem>)).toEqual(true);
+    });
 });
