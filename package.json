@@ -116,10 +116,7 @@
       "jsx",
       "node"
     ],
-    "watchPlugins": [
-      "D:\\dev\\BurgerApp\\burger-builder\\node_modules\\jest-watch-typeahead\\filename.js",
-      "D:\\dev\\BurgerApp\\burger-builder\\node_modules\\jest-watch-typeahead\\testname.js"
-    ]
+    "watchPlugins": []
   },
   "babel": {
     "presets": [
@@ -127,6 +124,7 @@
     ]
   },
   "devDependencies": {
+    "@types/jest": "^24.0.18",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.14.0",
     "react-test-renderer": "^16.9.0",
